@@ -6,6 +6,7 @@ const Test = () => {
     <FullpageContainer>
       <Section1></Section1>
       <Section2></Section2>
+      <SomeRidiculusComponent />
       <Section3></Section3>
       <Footer />
     </FullpageContainer>
@@ -56,4 +57,10 @@ const Footer = styled.div`
 
   width: 100%;
   height: 300px;
+`;
+
+const SomeRidiculusComponent = styled.div`
+  background-color: goldenrod;
+  width: 100%;
+  height: 600px;
 `;
