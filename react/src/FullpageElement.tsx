@@ -2,7 +2,11 @@ import { PropsWithChildren, useRef } from "react";
 import styled from "styled-components";
 const FullpageElement = ({ children }: PropsWithChildren) => {
   const elementRef = useRef<HTMLDivElement>(null);
-  return <Container ref={elementRef}>{children}</Container>;
+  return (
+    <Container className="full-page-element" ref={elementRef}>
+      {children}
+    </Container>
+  );
 };
 export default FullpageElement;
 

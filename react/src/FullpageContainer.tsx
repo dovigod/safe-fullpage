@@ -14,17 +14,19 @@ const FullpageContainer = ({ children }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     if (containerRef.current) {
-      const { resizeListener, disableScroll } = eventListenerFactory({
-        container: containerRef.current,
-      });
+      const { resizeListener, attatchFullpage, detatchFullpage } =
+        eventListenerFactory({
+          container: containerRef.current,
+        });
 
       window.addEventListener("resize", resizeListener);
-      disableScroll();
+      detatchFullpage();
+      attatchFullpage();
     }
   }, [containerRef]);
 
   return (
-    <Container ref={containerRef}>
+    <Container id="full-page-container" ref={containerRef}>
       {children instanceof Array ? (
         children.map((component: any, idx: number) => {
           return (
@@ -50,6 +52,7 @@ const Container = styled.div`
   transition: transform 0.9s ease 0s;
   transform: translateY(calc(var(--viewport-height) * var(--translate-value)));
   height: 100vh;
+  height: 100dvh;
   max-height: var(--viewport-height);
   position: fixed;
 `;

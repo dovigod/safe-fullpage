@@ -7,6 +7,7 @@ const Test = () => {
       <Section1></Section1>
       <Section2></Section2>
       <Section3></Section3>
+      <Footer />
     </FullpageContainer>
   );
 };
@@ -48,4 +49,11 @@ const Section3 = styled.section`
   position: relative;
   display: flex;
   justify-content: center;
+`;
+
+const Footer = styled.div`
+  background-color: purple;
+
+  width: 100%;
+  height: 300px;
 `;
