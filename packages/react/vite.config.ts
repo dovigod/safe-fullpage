@@ -15,7 +15,6 @@ export default defineConfig({
       formats: ["es", "umd"],
     },
     rollupOptions: {
-      // lottie-web
       external: ["react"],
     },
   },
