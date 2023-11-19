@@ -1,4 +1,4 @@
-.safeFullpageContainer {
+#safe-fullpage-container {
   --translate-value: 0;
   --viewport-height: 100dvh;
   width: 100%;
@@ -10,7 +10,7 @@
   max-height: var(--viewport-height);
   position: fixed;
 }
-.safeFullpageElement {
+.safe-fullpage-element {
   width: 100%;
   position: relative;
 }
