@@ -1,10 +1,9 @@
 {
   "name": "@dovigod/safe-fullpage",
-  "private": false,
+  "private": true,
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "cache:clean": "npm cache clean --force",
     "lerna": "lerna",
@@ -13,7 +12,7 @@
     "build:react": "nx build react",
     "dev:react": "nx dev react",
     "dev:vanilla": "nx dev vanilla",
-    "publish": "lerna publish"
+    "publish": "lerna publish --no-private"
   },
   "workspaces": {
     "packages": [
@@ -28,8 +27,5 @@
   },
   "devDependencies": {
     "nx": "17.1.2"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
