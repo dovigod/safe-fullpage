@@ -1,13 +1,17 @@
 {
   "name": "@safe-fullpage/core",
-  "version": "0.0.1-beta.0",
+  "version": "0.0.1-alpha.2",
   "description": "",
   "main": "index.js",
-  "private": true,
+  "type": "module",
+  "repository": "https://github.com/dovigod/safe-fullpage",
+  "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "gitHead": "8b5c00992a333c9dfa1d15691c6c66a0198b86bc"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }

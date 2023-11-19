@@ -1,6 +1,6 @@
 {
   "name": "@safe-fullpage/vanilla",
-  "private": false,
+  "private": true,
   "version": "0.0.3-beta.0",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@safe-fullpage/core": "0.0.1-beta.0"
+    "@safe-fullpage/core": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
@@ -18,5 +18,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "01452e4435855318aea105d324bee7390ff777e5"
+  "gitHead": "0f334b3d72d9b06ace5f3cfe60c6493b00ee1996"
 }
