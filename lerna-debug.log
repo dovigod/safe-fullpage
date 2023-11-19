@@ -1,17 +1,18 @@
-44 error Error: Command failed with exit code 1: pnpm install --lockfile-only --ignore-scripts
-44 error Scope: all 4 workspace projects
-44 error  WARN  `node_modules` is present. Lockfile only installation will make it out-of-date
-44 error Progress: resolved 0, reused 1, downloaded 0, added 0
-44 error /Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/packages/vanilla:
-44 error  ERR_PNPM_FETCH_404  GET https://registry.npmjs.org/@safe-fullpage%2Fcore: Not Found - 404
-44 error
-44 error This error happened while installing a direct dependency of /Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/packages/vanilla
-44 error
-44 error @safe-fullpage/core is not in the npm registry, or you have no permission to fetch it.
-44 error
-44 error An authorization header was used: Bearer npm_[hidden]
-44 error     at makeError (/Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/node_modules/.pnpm/execa@5.0.0/node_modules/execa/lib/error.js:59:11)
-44 error     at handlePromise (/Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/node_modules/.pnpm/execa@5.0.0/node_modules/execa/index.js:114:26)
-44 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-44 error     at async VersionCommand.updatePackageVersions (/Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/node_modules/.pnpm/lerna@7.4.2/node_modules/lerna/dist/index.js:8284:11)
-44 error     at async Promise.all (index 0)
+41 error Error: Command failed with exit code 1: pnpm install --lockfile-only --ignore-scripts
+41 error Scope: all 4 workspace projects
+41 error  WARN  `node_modules` is present. Lockfile only installation will make it out-of-date
+41 error Progress: resolved 0, reused 1, downloaded 0, added 0
+41 error /Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/packages/react:
+41 error  ERR_PNPM_FETCH_404  GET https://registry.npmjs.org/@safe-fullpage%2Fcore: Not Found - 404
+41 error
+41 error This error happened while installing a direct dependency of /Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/packages/react
+41 error
+41 error @safe-fullpage/core is not in the npm registry, or you have no permission to fetch it.
+41 error
+41 error An authorization header was used: Bearer npm_[hidden]
+41 error Progress: resolved 19, reused 19, downloaded 0, added 0
+41 error     at makeError (/Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/node_modules/.pnpm/execa@5.0.0/node_modules/execa/lib/error.js:59:11)
+41 error     at handlePromise (/Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/node_modules/.pnpm/execa@5.0.0/node_modules/execa/index.js:114:26)
+41 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+41 error     at async VersionCommand.updatePackageVersions (/Users/jisang/Dropbox/Mac/Desktop/workspaces/safe-fullpage/node_modules/.pnpm/lerna@7.4.2/node_modules/lerna/dist/index.js:8284:11)
+41 error     at async Promise.all (index 0)

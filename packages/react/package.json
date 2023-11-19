@@ -14,7 +14,7 @@
     "typegen": "tsc ./.ts --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
   },
   "dependencies": {
-    "@safe-fullpage/core": "^0.0.1-beta.1",
+    "@safe-fullpage/core": "workspace:*",
     "react": "^18.2.0"
   },
   "devDependencies": {
