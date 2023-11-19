@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "k": "tsc ./.ts --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
+    "typegen": "tsc ./.ts --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
   },
   "dependencies": {
     "@safe-fullpage/core": "workspace:*",
@@ -31,5 +31,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.6.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
