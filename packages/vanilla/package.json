@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@safe-fullpage/core": "0.0.1-beta.0"
+    "@safe-fullpage/core": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
