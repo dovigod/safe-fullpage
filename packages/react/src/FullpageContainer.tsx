@@ -1,6 +1,6 @@
 import { type PropsWithChildren, useLayoutEffect, useRef } from "react";
-import { FullpageContainerOption } from "../../core/index";
-import { eventListenerFactory } from "../../core/index";
+import { FullpageContainerOption } from "@safe-fullpage/core/types";
+import { eventListenerFactory } from "@safe-fullpage/core/eventListener";
 
 interface Props extends PropsWithChildren {
   option?: FullpageContainerOption;

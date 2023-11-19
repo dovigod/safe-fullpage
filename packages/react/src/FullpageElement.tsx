@@ -1,5 +1,5 @@
 import { PropsWithChildren, useLayoutEffect, useRef } from "react";
-import type { FullpageElementType } from "../../core/types";
+import type { FullpageElementType } from "@safe-fullpage/core/types";
 
 interface Props extends PropsWithChildren {
   elementType?: FullpageElementType;

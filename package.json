@@ -1,10 +1,19 @@
 {
-  "name": "@dovigod/safe-fullpage",
+  "name": "safe-fullpage",
+  "private": true,
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cache:clean": "npm cache clean --force",
+    "lerna": "lerna",
+    "build": "pnpm exec nx run-many --target=build",
+    "lint": "pnpm exec nx run-many --target=lint",
+    "build:react": "nx build react",
+    "dev:react": "nx dev react",
+    "dev:vanilla": "nx dev vanilla",
+    "publish": "lerna publish"
   },
   "workspaces": {
     "packages": [
@@ -13,5 +22,11 @@
   },
   "packageManager": "^pnpm@8.6.0",
   "author": "dovigod",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lerna": "^7.4.2"
+  },
+  "devDependencies": {
+    "nx": "17.1.2"
+  }
 }

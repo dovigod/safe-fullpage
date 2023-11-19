@@ -1,3 +1,6 @@
 _bin.txt
 node_modules
 /node_modules
+
+
+.nx/cache
