@@ -12,7 +12,7 @@
     "build:react": "nx build react",
     "dev:react": "nx dev react",
     "dev:vanilla": "nx dev vanilla",
-    "publish": "lerna publish"
+    "publish": "lerna publish --no-private"
   },
   "workspaces": {
     "packages": [
