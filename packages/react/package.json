@@ -6,6 +6,12 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "repository": "https://github.com/dovigod/safe-fullpage",
+  "keywords": [
+    "safe-fullpage",
+    "fullpage",
+    "react",
+    "react-fullpage"
+  ],
   "author": {
     "name": "Justin Seo"
   },
