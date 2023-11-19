@@ -1,18 +1,21 @@
 # Safe-fullpage
 
----
 
+
+
+---
 Simple library to let you build page with basic fullpage animation easily with fully mobile compatibilty.
 
 For the ones who don't want to read docs but peek the taste of fullpage.
 
 ## Introduction
-
 For the **🐖lazy devs🐖**, just remember **ONE THING**
 
 1. only one **FullpageContainer** per page.
 
 Thanks for reading.
+
+
 
 ## Contribution
 
@@ -24,9 +27,10 @@ So, any of your suggestion or idea or criticizings or any advises would help me 
 
 I'll be glad to hear for it. (If it makes sense, else 👹)
 
+
 ## Installing
 
-For React
+For React 
 
 ```
 pnpm install @safe-fullpage/react
