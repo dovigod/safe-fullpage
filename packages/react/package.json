@@ -4,6 +4,7 @@
   "version": "0.0.1-beta.3",
   "type": "module",
   "main": "./dist/index.js",
+  "repository": "https://github.com/dovigod/safe-fullpage",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
@@ -35,6 +36,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "0f334b3d72d9b06ace5f3cfe60c6493b00ee1996"
+  }
 }
