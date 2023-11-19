@@ -1,5 +1,5 @@
 {
-  "name": "react",
+  "name": "@safe-fullpage/react",
   "private": false,
   "version": "0.0.1-beta.0",
   "type": "module",
@@ -11,7 +11,7 @@
     "typegen": "tsc ./.ts --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
   },
   "dependencies": {
-    "@safe-fullpage/core": "workspace:*",
+    "@safe-fullpage/core": "0.0.1-beta.0",
     "react": "^18.2.0"
   },
   "devDependencies": {
@@ -34,5 +34,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "8b5c00992a333c9dfa1d15691c6c66a0198b86bc"
 }
