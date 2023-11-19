@@ -1,0 +1,16 @@
+#safe-fullpage-container {
+  --translate-value: 0;
+  --viewport-height: 100dvh;
+  width: 100%;
+  position: relative;
+  transition: transform 0.9s ease 0s;
+  transform: translateY(calc(var(--viewport-height) * var(--translate-value)));
+  height: 100vh;
+  height: 100dvh;
+  max-height: var(--viewport-height);
+  position: fixed;
+}
+.safe-fullpage-element {
+  width: 100%;
+  position: relative;
+}

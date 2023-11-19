@@ -1,3 +1,12 @@
+export type FullpageElementType = "content" | "footer";
+declare global {
+  interface Window {
+    _touchStart: number | null;
+  }
+  interface Element {
+    elementType: FullpageElementType;
+  }
+}
 export enum Direction {
   UP = "up",
   DOWN = "down",
