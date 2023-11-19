@@ -1,7 +1,7 @@
 {
   "name": "@safe-fullpage/react",
   "private": false,
-  "version": "0.0.1-beta.5",
+  "version": "0.0.1-beta.6",
   "type": "module",
   "main": "./dist/index.js",
   "repository": "https://github.com/dovigod/safe-fullpage",
@@ -13,7 +13,7 @@
     "typegen": "tsc ./.ts --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
   },
   "dependencies": {
-    "@safe-fullpage/core": "^0.0.1-beta.1",
+    "@safe-fullpage/core": "^0.0.1-beta.2",
     "react": "^18.2.0"
   },
   "devDependencies": {
