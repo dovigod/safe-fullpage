@@ -1,30 +1,58 @@
-# React + TypeScript + Vite
+# Safe-fullpage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+Simple library to let you build page with basic fullpage animation easily with fully mobile compatibilty.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+For the ones who don't want to read docs but peek the taste of fullpage.
 
-## Expanding the ESLint configuration
+## Introduction
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+For the **🐖lazy devs🐖**, just remember **ONE THING**
 
-- Configure the top-level `parserOptions` property like this:
+1. only one **FullpageContainer** per page.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Thanks for reading.
+
+## Contribution
+
+Any suggestions and PRs are welcomed.
+
+Just to note, I'm junior developer, so my code might not fit your needs.
+
+So, any of your suggestion or idea or criticizings or any advises would help me a lot.
+
+I'll be glad to hear for it. (If it makes sense, else 👹)
+
+## Installing
+
+For React
+
+```
+pnpm install @safe-fullpage/react
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+For vanilla (under development)
+
+```
+pnpm install @safe-fullpage/vanilla
+```
+
+## Usage
+
+### React
+
+```
+import { FullpageContainer , FullpageElement } from '@safe-fullpage/react'
+
+const Page = () => {
+
+  return (
+    <FullpageContainer>
+      <FullpageElement>{/* element */}</FullpageElement>
+      <FullpageElement>{/* element */}</FullpageElement>
+      <FullpageElement>{/* element */}</FullpageElement>
+    </FullpageContainer>
+  )
+}
+```
