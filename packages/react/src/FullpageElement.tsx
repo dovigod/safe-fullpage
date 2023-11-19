@@ -1,6 +1,6 @@
 import { PropsWithChildren, useLayoutEffect, useRef } from "react";
 import type { FullpageElementType } from "@safe-fullpage/core/types";
-
+import styleModule from "./style.module.css";
 interface Props extends PropsWithChildren {
   elementType?: FullpageElementType;
 }
@@ -15,7 +15,10 @@ export const FullpageElement = ({ children, elementType }: Props) => {
     }
   }, [elementRef, elementType]);
   return (
-    <div className="safe-fullpage-element" ref={elementRef}>
+    <div
+      className={`safe-fullpage-element ${styleModule.safeFullpageElement}`}
+      ref={elementRef}
+    >
       {children}
     </div>
   );

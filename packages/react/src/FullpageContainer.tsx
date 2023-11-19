@@ -1,7 +1,7 @@
 import { type PropsWithChildren, useLayoutEffect, useRef } from "react";
 import { FullpageContainerOption } from "@safe-fullpage/core/types";
-import { eventListenerFactory } from "@safe-fullpage/core/eventListener";
-
+import { fullpageFactory } from "@safe-fullpage/core";
+import styleModule from "./style.module.css";
 interface Props extends PropsWithChildren {
   option?: FullpageContainerOption;
 }
@@ -11,7 +11,7 @@ export const FullpageContainer = ({ children }: Props) => {
   useLayoutEffect(() => {
     if (containerRef.current) {
       const { resizeListener, attatchFullpage, detatchFullpage } =
-        eventListenerFactory({
+        fullpageFactory({
           container: containerRef.current,
         });
 
@@ -22,7 +22,11 @@ export const FullpageContainer = ({ children }: Props) => {
   }, [containerRef]);
 
   return (
-    <div id="safe-fullpage-container" ref={containerRef}>
+    <div
+      id="safe-fullpage-container"
+      className={styleModule.safeFullpageContainer}
+      ref={containerRef}
+    >
       {children}
     </div>
   );

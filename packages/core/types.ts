@@ -17,7 +17,7 @@ export interface FullpageContainerOption {
   scrollDelay?: number;
   touchMovementThreshold?: number;
 }
-export interface EventListenerOption extends FullpageContainerOption {
+export interface fullpageFactoryOption extends FullpageContainerOption {
   container: HTMLDivElement;
 }
 

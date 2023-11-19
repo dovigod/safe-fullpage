@@ -1,11 +1,14 @@
 {
   "name": "@safe-fullpage/react",
   "private": false,
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
   "repository": "https://github.com/dovigod/safe-fullpage",
+  "author": {
+    "name": "Justin Seo"
+  },
   "types": "dist/index.d.ts",
   "files": [
     "dist",
