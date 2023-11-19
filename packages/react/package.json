@@ -6,6 +6,12 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "repository": "https://github.com/dovigod/safe-fullpage",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "./dist"
+  ],
+  "module": "./dist/index.js",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
