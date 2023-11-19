@@ -1,6 +1,6 @@
 {
-  "name": "safe-fullpage",
-  "private": true,
+  "name": "@dovigod/safe-fullpage",
+  "private": false,
   "version": "1.0.0",
   "type": "module",
   "description": "",
@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "nx": "17.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
