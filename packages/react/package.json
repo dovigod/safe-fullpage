@@ -1,7 +1,7 @@
 {
   "name": "@safe-fullpage/react",
   "private": false,
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
@@ -36,5 +36,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8b5c00992a333c9dfa1d15691c6c66a0198b86bc"
+  "gitHead": "01452e4435855318aea105d324bee7390ff777e5"
 }
