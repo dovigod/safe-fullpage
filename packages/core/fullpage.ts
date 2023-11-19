@@ -3,19 +3,20 @@ import { Direction } from "./types";
 let hold = false;
 let pointer = 0;
 
-function _getChildElementHeightsAndSnapMethod(container: HTMLDivElement) {
-  const heights: { height: number; elementType: "content" | "footer" }[] = [];
+function _getChildElementHeightsAndElementType(container: HTMLDivElement) {
+  const elementInfos: { height: number; elementType: "content" | "footer" }[] =
+    [];
   for (const elem of container.children) {
-    heights.push({
+    elementInfos.push({
       height: elem.clientHeight,
       elementType: elem.elementType,
     });
   }
-  return heights;
+  return elementInfos;
 }
 
 function _scrollDown(translateVal: number, container: HTMLDivElement) {
-  const elementInfos = _getChildElementHeightsAndSnapMethod(container);
+  const elementInfos = _getChildElementHeightsAndElementType(container);
   const indexBoundary = elementInfos.length - 1;
   const nextPointer = pointer + 1;
   let res: string | null = null;
@@ -50,7 +51,7 @@ function _scrollDown(translateVal: number, container: HTMLDivElement) {
 }
 
 function _scrollUp(translateVal: number, container: HTMLDivElement) {
-  const elementInfos = _getChildElementHeightsAndSnapMethod(container);
+  const elementInfos = _getChildElementHeightsAndElementType(container);
   const indexBoundary = 0;
   let res: string | null = null;
   const nextPointer = pointer - 1;

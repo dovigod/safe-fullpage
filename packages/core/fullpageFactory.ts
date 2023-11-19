@@ -1,11 +1,11 @@
-import { EventListenerOption, ScrollLockOption } from "./types";
+import { fullpageFactoryOption, ScrollLockOption } from "./types";
 import { ERROR_CODE } from "./error";
 import { keyCodesToPrevent } from "./constant";
 import { _fullpage } from "./fullpage";
 
-let debounceTimer: NodeJS.Timeout | null = null; // resize debouncer
+let debounceTimer: NodeJS.Timeout | number | null = null; // resize debouncer
 
-export function eventListenerFactory(option: EventListenerOption) {
+export function fullpageFactory(option: fullpageFactoryOption) {
   let enableKeydown = option.enableKeydown;
   let scrollDelay = option.scrollDelay;
   let touchMovementThreshold = option.touchMovementThreshold;
