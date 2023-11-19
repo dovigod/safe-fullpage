@@ -1,9 +1,17 @@
 {
   "name": "@safe-fullpage/react",
   "private": false,
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-alpha.1",
   "type": "module",
+  "license": "MIT",
   "main": "./dist/index.js",
+  "repository": "https://github.com/dovigod/safe-fullpage",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "./dist"
+  ],
+  "module": "./dist/index.js",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
@@ -12,7 +20,7 @@
     "typegen": "tsc ./.ts --declaration --emitDeclarationOnly --jsx react --esModuleInterop --outDir dist"
   },
   "dependencies": {
-    "@safe-fullpage/core": "0.0.1-beta.0",
+    "@safe-fullpage/core": "workspace:*",
     "react": "^18.2.0"
   },
   "devDependencies": {
@@ -35,6 +43,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "0f334b3d72d9b06ace5f3cfe60c6493b00ee1996"
+  }
 }
