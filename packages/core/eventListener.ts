@@ -49,7 +49,7 @@ export function eventListenerFactory(option: EventListenerOption) {
   }
 
   for (const elem of container.children) {
-    if (!elem.classList.contains("full-page-element")) {
+    if (!elem.classList.contains("safe-full-page-element")) {
       console.warn(
         `Detected unsafe child element ${elem.tagName}.${elem.classList.value}, which might cause side effects. Recommend using FullpageElement as a child.`
       );
