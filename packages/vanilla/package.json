@@ -1,7 +1,7 @@
 {
   "name": "@safe-fullpage/vanilla",
   "private": false,
-  "version": "0.0.3-beta.0",
+  "version": "0.1.0",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",
