@@ -3,19 +3,28 @@ import { Direction } from "./types";
 let hold = false;
 let pointer = 0;
 
-function _getChildElementHeightsAndElementType(container: HTMLDivElement) {
+function _getChildElementHeightsAndElementType(container: HTMLElement) {
   const elementInfos: { height: number; elementType: "content" | "footer" }[] =
     [];
   for (const elem of container.children) {
-    elementInfos.push({
-      height: elem.clientHeight,
-      elementType: elem.elementType,
-    });
+    if (elem.tagName === "SAFE-FULLPAGE-ELEMENT") {
+      if (elem.firstElementChild) {
+        elementInfos.push({
+          height: (elem.firstElementChild as HTMLElement).clientHeight,
+          elementType: elem.elementType,
+        });
+      }
+    } else {
+      elementInfos.push({
+        height: elem.clientHeight,
+        elementType: elem.elementType,
+      });
+    }
   }
   return elementInfos;
 }
 
-function _scrollDown(translateVal: number, container: HTMLDivElement) {
+function _scrollDown(translateVal: number, container: HTMLElement) {
   const elementInfos = _getChildElementHeightsAndElementType(container);
   const indexBoundary = elementInfos.length - 1;
   const nextPointer = pointer + 1;
@@ -50,7 +59,7 @@ function _scrollDown(translateVal: number, container: HTMLDivElement) {
   return res;
 }
 
-function _scrollUp(translateVal: number, container: HTMLDivElement) {
+function _scrollUp(translateVal: number, container: HTMLElement) {
   const elementInfos = _getChildElementHeightsAndElementType(container);
   const indexBoundary = 0;
   let res: string | null = null;
@@ -87,7 +96,7 @@ function _scrollUp(translateVal: number, container: HTMLDivElement) {
 }
 function _scroll(
   direction: Direction,
-  container: HTMLDivElement,
+  container: HTMLElement,
   scrollDelay: number
 ) {
   hold = true;
@@ -108,7 +117,7 @@ function _scroll(
   }, scrollDelay);
 }
 export function _fullpage(
-  container: HTMLDivElement,
+  container: HTMLElement,
   scrollDelay: number,
   touchMovementThreshold: number,
   e: any
@@ -117,6 +126,7 @@ export function _fullpage(
 
   let direction = Direction.NEUTRAL;
   const touchStart = window._touchStart;
+
   if (e.type === "touchmove") {
     direction = Direction.NEUTRAL;
     const touchThreshold =
