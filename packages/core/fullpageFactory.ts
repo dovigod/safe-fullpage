@@ -170,7 +170,3 @@ function _resizeListener(container: HTMLDivElement, e: any) {
 function _touchEvent(e: any) {
   window._touchStart = e.pageY;
 }
-
-function setTransitionDuration(container: HTMLDivElement, duration = 900) {
-  container.style.transitionDuration = `${duration}ms`;
-}
