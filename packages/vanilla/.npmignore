@@ -1,0 +1,13 @@
+node_modules
+example
+src
+src/*
+vite.config.ts
+tsconfig.node.json
+tsconfig.json
+index.html
+.gitignore
+.eslintrc.cjs
+example/*
+node_modules/*
+

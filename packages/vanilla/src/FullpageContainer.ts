@@ -1,14 +1,36 @@
 import { CSSTimingKeyword } from "@safe-fullpage/core/types";
 import { ERROR_CODE, fullpageFactory } from "@safe-fullpage/core";
 
-/**
- *   enableKeydown?: boolean;
-  scrollDelay?: number;
-  touchMovementThreshold?: number;
-  duration?: number;
-  timingMethod?: CSSTimingKeyword;
- */
+const template = document.createElement("template");
+template.innerHTML = /* html */ `
 
+<style>
+  #safe-fullpage-container {
+    --safefullpage-translate-value: 0;
+    --safefullpage-viewport-height: 100dvh;
+    width: 100%;
+    position: relative;
+    transition: transform 0.9s ease 0s;
+    transform: translateY(
+      calc(
+        var(--safefullpage-viewport-height) * var(--safefullpage-translate-value)
+      )
+    );
+    height: 100vh;
+    height: 100dvh;
+    max-height: var(--safefullpage-viewport-height);
+    position: fixed;
+    margin: 0;
+    padding: 0;
+  }
+  .safe-fullpage-element {
+    width: 100%;
+    position: relative;
+  }
+</style>
+<div id='safe-fullpage-container'>
+</div>
+`;
 export class FullpageContainer extends HTMLElement {
   private _enableKeydown!: boolean;
   private _scrollDelay!: number;
@@ -17,6 +39,26 @@ export class FullpageContainer extends HTMLElement {
   private _timingMethod!: CSSTimingKeyword;
   constructor() {
     super();
+
+    const nodes = [];
+    const nodesToRemove = [];
+    for (let i = 0; i < this.children.length; i++) {
+      if (this.children[i].tagName !== "span") {
+        nodes.push(this.children[i].cloneNode(true));
+        nodesToRemove.push(this.children[i]);
+      }
+    }
+    for (const node of nodesToRemove) {
+      node.remove();
+    }
+    const templateNode = template.content.cloneNode(true) as Element;
+    const container = templateNode.children.namedItem(
+      "safe-fullpage-container"
+    )!;
+    for (const node of nodes) {
+      container.appendChild(node);
+    }
+    this.appendChild(templateNode);
   }
 
   static get observedAttributes() {
@@ -91,74 +133,71 @@ export class FullpageContainer extends HTMLElement {
   }
 
   connectedCallback() {
-    const enableKeydown = !!this.enableKeydown;
-    let scrollDelay: string | number = this.scrollDelay;
-    let touchMovementThreshold: string | number = this.touchMovementThreshold;
-    let duration: string | number = this.duration;
-    let timingMethod = this.timingMethod;
+    setTimeout(() => {
+      const enableKeydown = !!this.enableKeydown;
+      let scrollDelay: string | number = this.scrollDelay;
+      let touchMovementThreshold: string | number = this.touchMovementThreshold;
+      let duration: string | number = this.duration;
+      let timingMethod = this.timingMethod;
 
-    if (Number.isNaN(scrollDelay)) {
-      throw {
-        code: ERROR_CODE.VALIDATION_ERROR,
-        message: `expected type 'number' instead got value ${scrollDelay} on for attribute scrollDelay `,
-      };
-    }
-    if (Number.isNaN(touchMovementThreshold)) {
-      throw {
-        code: ERROR_CODE.VALIDATION_ERROR,
-        message: `expected type 'number' instead got value ${touchMovementThreshold} for attribute touchMovementThreshold `,
-      };
-    }
-    if (Number.isNaN(duration)) {
-      throw {
-        code: ERROR_CODE.VALIDATION_ERROR,
-        message: `expected type 'number' instead got value ${duration} for attribute duration `,
-      };
-    }
+      if (Number.isNaN(scrollDelay)) {
+        throw {
+          code: ERROR_CODE.VALIDATION_ERROR,
+          message: `expected type 'number' instead got value ${scrollDelay} on for attribute scrollDelay `,
+        };
+      }
+      if (Number.isNaN(touchMovementThreshold)) {
+        throw {
+          code: ERROR_CODE.VALIDATION_ERROR,
+          message: `expected type 'number' instead got value ${touchMovementThreshold} for attribute touchMovementThreshold `,
+        };
+      }
+      if (Number.isNaN(duration)) {
+        throw {
+          code: ERROR_CODE.VALIDATION_ERROR,
+          message: `expected type 'number' instead got value ${duration} for attribute duration `,
+        };
+      }
 
-    scrollDelay = Number(scrollDelay);
-    touchMovementThreshold = Number(touchMovementThreshold);
-    duration = Number(duration);
+      scrollDelay = Number(scrollDelay);
+      touchMovementThreshold = Number(touchMovementThreshold);
+      duration = Number(duration);
 
-    const isAvailableTimingFunction = [
-      "ease",
-      "ease-in",
-      "ease-out",
-      "ease-in-out",
-      "linear",
-    ].some((method) => method === timingMethod);
+      const isAvailableTimingFunction = [
+        "ease",
+        "ease-in",
+        "ease-out",
+        "ease-in-out",
+        "linear",
+      ].some((method) => method === timingMethod);
 
-    if (!isAvailableTimingFunction) {
-      throw {
-        code: ERROR_CODE.VALIDATION_ERROR,
-        message: `expected "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear", instead got ${timingMethod} for attribute timingMethod `,
-      };
-    }
+      if (!isAvailableTimingFunction) {
+        throw {
+          code: ERROR_CODE.VALIDATION_ERROR,
+          message: `expected "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear", instead got ${timingMethod} for attribute timingMethod `,
+        };
+      }
 
-    this._enableKeydown = enableKeydown;
-    this._scrollDelay = scrollDelay;
-    this._duration = duration;
-    this._touchMovementThreshold = touchMovementThreshold;
-    this._timingMethod = timingMethod as CSSTimingKeyword;
+      this._enableKeydown = enableKeydown;
+      this._scrollDelay = scrollDelay;
+      this._duration = duration;
+      this._touchMovementThreshold = touchMovementThreshold;
+      this._timingMethod = timingMethod as CSSTimingKeyword;
 
-    console.log("enableKeydown :: ", this.enableKeydown, this._enableKeydown);
-    console.log("scrollDelay :: ", this.scrollDelay, this._scrollDelay);
-    console.log(
-      "touchMovementThreshold :: ",
-      this.touchMovementThreshold,
-      this._touchMovementThreshold
-    );
-    console.log("duration :: ", this.duration, this._duration);
-    console.log("timingMethod :: ", this.timingMethod, this._timingMethod);
-
-    //   const { resizeListener, attatchFullpage, detatchFullpage } =
-    //   fullpageFactory({
-    //     container: containerRef.current,
-    //     ...option,
-    //   });
-    // window.addEventListener("resize", resizeListener);
-    // detatchFullpage();
-    // attatchFullpage();
+      const container = this.children.namedItem("safe-fullpage-container")!;
+      const { resizeListener, attatchFullpage, detatchFullpage } =
+        fullpageFactory({
+          container: container as HTMLElement,
+          enableKeydown: this._enableKeydown,
+          scrollDelay: this._scrollDelay,
+          duration: this._duration,
+          touchMovementThreshold: this._touchMovementThreshold,
+          timingMethod: this._timingMethod,
+        });
+      window.addEventListener("resize", resizeListener);
+      detatchFullpage();
+      attatchFullpage();
+    }, 0);
   }
 }
 
