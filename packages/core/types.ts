@@ -27,7 +27,7 @@ export interface FullpageContainerOption {
   timingMethod?: CSSTimingKeyword;
 }
 export interface fullpageFactoryOption extends FullpageContainerOption {
-  container: HTMLDivElement;
+  container: HTMLElement;
 }
 
 export interface ScrollLockOption {

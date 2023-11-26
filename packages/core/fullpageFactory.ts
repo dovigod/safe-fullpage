@@ -32,10 +32,10 @@ export function fullpageFactory(option: fullpageFactoryOption) {
   }
 
   //validation
-  if (!container || !(container instanceof HTMLDivElement)) {
+  if (!container || !(container instanceof HTMLElement)) {
     throw {
       code: ERROR_CODE.VALIDATION_ERROR,
-      message: `expected container to be HTMLDivElement instead ${typeof container}`,
+      message: `expected container to be HTMLElement instead ${typeof container}`,
     };
   }
   if (typeof enableKeydown !== "boolean") {
@@ -80,6 +80,7 @@ export function fullpageFactory(option: fullpageFactoryOption) {
 
   for (const elem of container.children) {
     if (!elem.classList.contains("safe-fullpage-element")) {
+      console.dir(elem);
       console.warn(
         `Detected unsafe child element ${elem.tagName}.${elem.classList.value}, which might cause side effects. Recommend using FullpageElement as a child.`
       );
@@ -155,7 +156,7 @@ function _attatchFullpage(option: ScrollLockOption, fullpage: any) {
   window.addEventListener("touchstart", _touchEvent, { passive: false });
 }
 
-function _resizeListener(container: HTMLDivElement, e: any) {
+function _resizeListener(container: HTMLElement, e: any) {
   if (debounceTimer) {
     clearTimeout(debounceTimer);
   }
