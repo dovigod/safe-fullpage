@@ -1,5 +1,5 @@
-import { FullpageContainerOption } from "@safe-fullpage/core/types";
-import { fullpageFactory } from "@safe-fullpage/core";
+import { CSSTimingKeyword } from "@safe-fullpage/core/types";
+import { ERROR_CODE, fullpageFactory } from "@safe-fullpage/core";
 
 /**
  *   enableKeydown?: boolean;
@@ -10,6 +10,11 @@ import { fullpageFactory } from "@safe-fullpage/core";
  */
 
 export class FullpageContainer extends HTMLElement {
+  private _enableKeydown!: boolean;
+  private _scrollDelay!: number;
+  private _touchMovementThreshold!: number;
+  private _duration!: number;
+  private _timingMethod!: CSSTimingKeyword;
   constructor() {
     super();
   }
@@ -20,18 +25,25 @@ export class FullpageContainer extends HTMLElement {
       "scrollDelay",
       "touchMovementThreshold",
       "duration",
-      "c",
+      "timingMethod",
     ];
   }
   set enableKeydown(_value: string) {
     if (_value) {
-      this.setAttribute("enableKeydown", "");
+      if (_value === "false") {
+        console.warn(
+          "Seems you're trying to set a value to boolean attribute. recommend discarding attribute declaration if you want to set false to it."
+        );
+        this.removeAttribute("enableKeydown");
+      } else {
+        this.setAttribute("enableKeydown", "");
+      }
     } else {
       this.removeAttribute("enableKeydown");
     }
   }
   get enableKeydown() {
-    return String(this.hasAttribute("enableKeydown"));
+    return this.hasAttribute("enableKeydown") ? "true" : "";
   }
 
   set scrollDelay(value: string) {
@@ -78,12 +90,67 @@ export class FullpageContainer extends HTMLElement {
     }
   }
 
-  connectedCallback(x: any) {
-    console.log("enableKeydown :: ", this.enableKeydown);
-    console.log("scrollDelay :: ", this.scrollDelay);
-    console.log("touchMovementThreshold :: ", this.touchMovementThreshold);
-    console.log("duration :: ", this.duration);
-    console.log("timingMethod :: ", this.timingMethod);
+  connectedCallback() {
+    const enableKeydown = !!this.enableKeydown;
+    let scrollDelay: string | number = this.scrollDelay;
+    let touchMovementThreshold: string | number = this.touchMovementThreshold;
+    let duration: string | number = this.duration;
+    let timingMethod = this.timingMethod;
+
+    if (Number.isNaN(scrollDelay)) {
+      throw {
+        code: ERROR_CODE.VALIDATION_ERROR,
+        message: `expected type 'number' instead got value ${scrollDelay} on for attribute scrollDelay `,
+      };
+    }
+    if (Number.isNaN(touchMovementThreshold)) {
+      throw {
+        code: ERROR_CODE.VALIDATION_ERROR,
+        message: `expected type 'number' instead got value ${touchMovementThreshold} for attribute touchMovementThreshold `,
+      };
+    }
+    if (Number.isNaN(duration)) {
+      throw {
+        code: ERROR_CODE.VALIDATION_ERROR,
+        message: `expected type 'number' instead got value ${duration} for attribute duration `,
+      };
+    }
+
+    scrollDelay = Number(scrollDelay);
+    touchMovementThreshold = Number(touchMovementThreshold);
+    duration = Number(duration);
+
+    const isAvailableTimingFunction = [
+      "ease",
+      "ease-in",
+      "ease-out",
+      "ease-in-out",
+      "linear",
+    ].some((method) => method === timingMethod);
+
+    if (!isAvailableTimingFunction) {
+      throw {
+        code: ERROR_CODE.VALIDATION_ERROR,
+        message: `expected "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear", instead got ${timingMethod} for attribute timingMethod `,
+      };
+    }
+
+    this._enableKeydown = enableKeydown;
+    this._scrollDelay = scrollDelay;
+    this._duration = duration;
+    this._touchMovementThreshold = touchMovementThreshold;
+    this._timingMethod = timingMethod as CSSTimingKeyword;
+
+    console.log("enableKeydown :: ", this.enableKeydown, this._enableKeydown);
+    console.log("scrollDelay :: ", this.scrollDelay, this._scrollDelay);
+    console.log(
+      "touchMovementThreshold :: ",
+      this.touchMovementThreshold,
+      this._touchMovementThreshold
+    );
+    console.log("duration :: ", this.duration, this._duration);
+    console.log("timingMethod :: ", this.timingMethod, this._timingMethod);
+
     //   const { resizeListener, attatchFullpage, detatchFullpage } =
     //   fullpageFactory({
     //     container: containerRef.current,
