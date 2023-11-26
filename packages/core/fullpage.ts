@@ -93,11 +93,11 @@ function _scroll(
   hold = true;
   const computedStyle = getComputedStyle(container);
   const translateVal = Number(
-    computedStyle.getPropertyValue("--translate-value")
+    computedStyle.getPropertyValue("--safefullpage-translate-value")
   );
 
   container!.style.setProperty(
-    "--translate-value",
+    "--safefullpage-translate-value",
     direction === "down"
       ? _scrollDown(translateVal, container)
       : _scrollUp(translateVal, container)

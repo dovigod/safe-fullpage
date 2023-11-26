@@ -47,7 +47,7 @@ const Footer = styled.div`
 
 const Test = () => {
   return (
-    <FullpageContainer>
+    <FullpageContainer option={{ duration: 3000, timingMethod: "linear" }}>
       <FullpageElement>
         <Section1></Section1>
       </FullpageElement>
@@ -57,7 +57,7 @@ const Test = () => {
       <FullpageElement>
         <Section3></Section3>
       </FullpageElement>
-      <FullpageElement>
+      <FullpageElement elementType="footer">
         <Footer />
       </FullpageElement>
     </FullpageContainer>

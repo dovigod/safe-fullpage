@@ -13,7 +13,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, "src/index.ts"),
       name: "safe-fullpage",
       fileName: "index",
-      formats: ["es", "umd"],
+      formats: ["es"],
     },
     rollupOptions: {
       external: ["react", "react/jsx-runtime"],

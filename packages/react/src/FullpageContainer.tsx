@@ -5,20 +5,21 @@ interface Props extends PropsWithChildren {
   option?: FullpageContainerOption;
 }
 
-export const FullpageContainer = ({ children }: Props) => {
+export const FullpageContainer = ({ children, option }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     if (containerRef.current) {
       const { resizeListener, attatchFullpage, detatchFullpage } =
         fullpageFactory({
           container: containerRef.current,
+          ...option,
         });
 
       window.addEventListener("resize", resizeListener);
       detatchFullpage();
       attatchFullpage();
     }
-  }, [containerRef]);
+  }, [containerRef, option]);
 
   return (
     <div id="safe-fullpage-container" ref={containerRef}>

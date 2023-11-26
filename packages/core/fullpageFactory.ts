@@ -9,6 +9,9 @@ export function fullpageFactory(option: fullpageFactoryOption) {
   let enableKeydown = option.enableKeydown;
   let scrollDelay = option.scrollDelay;
   let touchMovementThreshold = option.touchMovementThreshold;
+  let transitionDuration = option.duration;
+  let transitionTimingMethod = option.timingMethod;
+
   const container = option.container;
 
   //defaults
@@ -19,7 +22,13 @@ export function fullpageFactory(option: fullpageFactoryOption) {
     scrollDelay = 1500;
   }
   if (typeof option.touchMovementThreshold === "undefined") {
-    touchMovementThreshold = 20;
+    touchMovementThreshold = 20; // minimum 20px movement to trigger fullpage with pan
+  }
+  if (typeof option.duration === "undefined") {
+    transitionDuration = 900;
+  }
+  if (typeof option.timingMethod === "undefined") {
+    transitionTimingMethod = "ease";
   }
 
   //validation
@@ -47,6 +56,27 @@ export function fullpageFactory(option: fullpageFactoryOption) {
       message: `expected type 'number' instead got ${typeof touchMovementThreshold} on option.touchMovementThreshold `,
     };
   }
+  if (typeof transitionDuration !== "number") {
+    throw {
+      code: ERROR_CODE.VALIDATION_ERROR,
+      message: `expected type 'number' instead got ${typeof transitionDuration} on option.duration `,
+    };
+  }
+
+  const isAvailableTimingFunction = [
+    "ease",
+    "ease-in",
+    "ease-out",
+    "ease-in-out",
+    "linear",
+  ].some((timingMethod) => timingMethod === transitionTimingMethod);
+
+  if (!isAvailableTimingFunction) {
+    throw {
+      code: ERROR_CODE.VALIDATION_ERROR,
+      message: `expected "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear", instead got ${transitionTimingMethod} on option.timingMethod `,
+    };
+  }
 
   for (const elem of container.children) {
     if (!elem.classList.contains("safe-fullpage-element")) {
@@ -55,6 +85,8 @@ export function fullpageFactory(option: fullpageFactoryOption) {
       );
     }
   }
+  container.style.transitionDuration = `${transitionDuration}ms`;
+  container.style.transitionTimingFunction = `${transitionTimingMethod}`;
 
   const fullpage = _fullpage.bind(
     null,
@@ -129,7 +161,7 @@ function _resizeListener(container: HTMLDivElement, e: any) {
   }
   debounceTimer = setTimeout(() => {
     container.style.setProperty(
-      "--viewport-height",
+      "--safefullpage-viewport-height",
       e.target.document.documentElement.clientHeight + "px"
     );
   }, 100);
@@ -137,4 +169,8 @@ function _resizeListener(container: HTMLDivElement, e: any) {
 
 function _touchEvent(e: any) {
   window._touchStart = e.pageY;
+}
+
+function setTransitionDuration(container: HTMLDivElement, duration = 900) {
+  container.style.transitionDuration = `${duration}ms`;
 }
