@@ -10,4 +10,4 @@ index.html
 .eslintrc.cjs
 example/*
 node_modules/*
-
+.DS_Store
