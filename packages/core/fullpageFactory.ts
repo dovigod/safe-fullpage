@@ -142,6 +142,9 @@ export function fullpageFactory(option: fullpageFactoryOption) {
     resizeListener,
     attatchFullpage,
     detatchFullpage,
+    //lock
+    //scrollTo
+    //
   };
 }
 
