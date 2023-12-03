@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { FullpageContainer, FullpageElement } from "../src/index";
 import styled from "styled-components";
+import { FullpageEvent } from "@safe-fullpage/core/event";
 
 const Section1 = styled.section`
   background-color: yellow;
@@ -47,7 +48,18 @@ const Footer = styled.div`
 
 const Test = () => {
   return (
-    <FullpageContainer option={{ duration: 1500, timingMethod: "ease" }}>
+    <FullpageContainer
+      option={{
+        duration: 1500,
+        timingMethod: "ease",
+        onFullpageStart: (event: FullpageEvent) => {
+          console.log("hello from start", event);
+        },
+        onFullpageEnd: (event: FullpageEvent) => {
+          console.log("hello from end", event);
+        },
+      }}
+    >
       <FullpageElement>
         <Section1></Section1>
       </FullpageElement>

@@ -1,5 +1,6 @@
-import { Direction } from "./types";
-
+import { DeviceType, Direction } from "./types";
+import { FullpageEvent } from "./event";
+import { detectDeviceType } from "./utils";
 let hold = false;
 let pointer = 0;
 
@@ -94,29 +95,8 @@ function _scrollUp(translateVal: number, container: HTMLElement) {
   res = translateVal.toString();
   return res;
 }
-function _scroll(
-  direction: Direction,
-  container: HTMLElement,
-  scrollDelay: number
-) {
-  hold = true;
-  const computedStyle = getComputedStyle(container);
-  const translateVal = Number(
-    computedStyle.getPropertyValue("--safefullpage-translate-value")
-  );
 
-  container!.style.setProperty(
-    "--safefullpage-translate-value",
-    direction === "down"
-      ? _scrollDown(translateVal, container)
-      : _scrollUp(translateVal, container)
-  );
-
-  setTimeout(() => {
-    hold = false;
-  }, scrollDelay);
-}
-export function _fullpage(
+export function _dispatchUserAction(
   container: HTMLElement,
   scrollDelay: number,
   touchMovementThreshold: number,
@@ -138,6 +118,53 @@ export function _fullpage(
     direction = (e as WheelEvent).deltaY < 0 ? Direction.UP : Direction.DOWN;
   }
   if (direction !== Direction.NEUTRAL && !hold) {
-    _scroll(direction as Direction, container, scrollDelay);
+    const prevSectionIdx = pointer;
+    const lastIdx = container.children.length - 1;
+    let sectionIdx =
+      direction === Direction.DOWN
+        ? pointer + 1
+        : direction === Direction.UP
+        ? pointer - 1
+        : pointer;
+    if (sectionIdx < 0) {
+      sectionIdx = 0;
+    }
+    if (sectionIdx > lastIdx) {
+      sectionIdx = lastIdx;
+    }
+
+    const safeFullpageEvent = new FullpageEvent({
+      direction,
+      prevSectionIdx,
+      sectionIdx,
+      isStart: sectionIdx === 0,
+      isEnd: sectionIdx === lastIdx,
+      deviceType: detectDeviceType() as DeviceType,
+      container,
+      touchMovementThreshold,
+      scrollDelay,
+    });
+    dispatchEvent(safeFullpageEvent);
   }
+}
+
+export function safeFullpage(event: FullpageEvent) {
+  hold = true;
+  const { direction, safeFullpageContainer: container, scrollDelay } = event;
+  const computedStyle = getComputedStyle(container);
+  const translateVal = Number(
+    computedStyle.getPropertyValue("--safefullpage-translate-value")
+  );
+  container.style.setProperty(
+    "--safefullpage-translate-value",
+    direction === "down"
+      ? _scrollDown(translateVal, container)
+      : direction === "up"
+      ? _scrollUp(translateVal, container)
+      : String(translateVal)
+  );
+
+  setTimeout(() => {
+    hold = false;
+  }, scrollDelay);
 }

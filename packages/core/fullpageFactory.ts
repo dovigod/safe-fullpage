@@ -1,7 +1,8 @@
 import { fullpageFactoryOption, ScrollLockOption } from "./types";
 import { ERROR_CODE } from "./error";
 import { keyCodesToPrevent } from "./constant";
-import { _fullpage } from "./fullpage";
+import { safeFullpage, _dispatchUserAction } from "./fullpage";
+import { FullpageEvent } from "./event";
 
 let debounceTimer: NodeJS.Timeout | number | null = null; // resize debouncer
 
@@ -11,6 +12,8 @@ export function fullpageFactory(option: fullpageFactoryOption) {
   let touchMovementThreshold = option.touchMovementThreshold;
   let transitionDuration = option.duration;
   let transitionTimingMethod = option.timingMethod;
+  const onFullpageEnd = option.onFullpageEnd;
+  const onFullpageStart = option.onFullpageStart;
 
   const container = option.container;
 
@@ -34,32 +37,44 @@ export function fullpageFactory(option: fullpageFactoryOption) {
   //validation
   if (!container || !(container instanceof HTMLElement)) {
     throw {
-      code: ERROR_CODE.VALIDATION_ERROR,
+      code: ERROR_CODE.VALIDATION_FAILURE,
       message: `expected container to be HTMLElement instead ${typeof container}`,
     };
   }
   if (typeof enableKeydown !== "boolean") {
     throw {
-      code: ERROR_CODE.VALIDATION_ERROR,
+      code: ERROR_CODE.VALIDATION_FAILURE,
       message: `expected type 'boolean' instead got ${typeof enableKeydown} on option.enableKeydown `,
     };
   }
   if (typeof scrollDelay !== "number") {
     throw {
-      code: ERROR_CODE.VALIDATION_ERROR,
+      code: ERROR_CODE.VALIDATION_FAILURE,
       message: `expected type 'number' instead got ${typeof scrollDelay} on option.scrollDelay `,
     };
   }
   if (typeof touchMovementThreshold !== "number") {
     throw {
-      code: ERROR_CODE.VALIDATION_ERROR,
+      code: ERROR_CODE.VALIDATION_FAILURE,
       message: `expected type 'number' instead got ${typeof touchMovementThreshold} on option.touchMovementThreshold `,
     };
   }
   if (typeof transitionDuration !== "number") {
     throw {
-      code: ERROR_CODE.VALIDATION_ERROR,
+      code: ERROR_CODE.VALIDATION_FAILURE,
       message: `expected type 'number' instead got ${typeof transitionDuration} on option.duration `,
+    };
+  }
+  if (onFullpageStart && typeof onFullpageStart !== "function") {
+    throw {
+      code: ERROR_CODE.VALIDATION_FAILURE,
+      message: `expected type 'function' instead got ${typeof onFullpageStart} on option.onFullpageStart `,
+    };
+  }
+  if (onFullpageEnd && typeof onFullpageEnd !== "function") {
+    throw {
+      code: ERROR_CODE.VALIDATION_FAILURE,
+      message: `expected type 'function' instead got ${typeof onFullpageEnd} on option.onFullpageEnd `,
     };
   }
 
@@ -73,14 +88,13 @@ export function fullpageFactory(option: fullpageFactoryOption) {
 
   if (!isAvailableTimingFunction) {
     throw {
-      code: ERROR_CODE.VALIDATION_ERROR,
+      code: ERROR_CODE.VALIDATION_FAILURE,
       message: `expected "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear", instead got ${transitionTimingMethod} on option.timingMethod `,
     };
   }
 
   for (const elem of container.children) {
     if (!elem.classList.contains("safe-fullpage-element")) {
-      console.dir(elem);
       console.warn(
         `Detected unsafe child element ${elem.tagName}.${elem.classList.value}, which might cause side effects. Recommend using FullpageElement as a child.`
       );
@@ -89,26 +103,39 @@ export function fullpageFactory(option: fullpageFactoryOption) {
   container.style.transitionDuration = `${transitionDuration}ms`;
   container.style.transitionTimingFunction = `${transitionTimingMethod}`;
 
-  const fullpage = _fullpage.bind(
+  const dispatchUserAction = _dispatchUserAction.bind(
     null,
     container,
     scrollDelay!,
     touchMovementThreshold!
   );
   const resizeListener = _resizeListener.bind(null, container);
+  const safeFullpageHandler = async function (event: FullpageEvent) {
+    if (onFullpageStart) {
+      await onFullpageStart(event);
+    }
+    event.stateTransition();
+    safeFullpage(event);
+    event.stateTransition();
+    if (onFullpageEnd) {
+      await onFullpageEnd(event);
+    }
+  };
   const attatchFullpage = _attatchFullpage.bind(
     null,
     {
       enableKeydown: enableKeydown!,
     },
-    fullpage
+    dispatchUserAction,
+    safeFullpageHandler
   );
   const detatchFullpage = _detatchFullpage.bind(
     null,
     {
       enableKeydown: enableKeydown!,
     },
-    fullpage
+    dispatchUserAction,
+    safeFullpageHandler
   );
 
   return {
@@ -125,35 +152,45 @@ function _preventDefaultForScrollKeys(e: KeyboardEvent) {
   }
 }
 
-function _detatchFullpage(option: ScrollLockOption, fullpage: any) {
+function _detatchFullpage(
+  option: ScrollLockOption,
+  dispatchUserAction: any,
+  safeFullpageHandler: (event: FullpageEvent) => Promise<void>
+) {
   if (option.enableKeydown) {
     window.removeEventListener("keydown", _preventDefaultForScrollKeys, false);
   }
-  window.removeEventListener("DOMMouseScroll", fullpage, false);
-  window.removeEventListener("scroll", fullpage, false);
-  window.removeEventListener("wheel", fullpage, false);
-  window.removeEventListener("mousewheel", fullpage, false);
-  window.removeEventListener("touchmove", fullpage, false);
+  window.removeEventListener("DOMMouseScroll", dispatchUserAction, false);
+  window.removeEventListener("scroll", dispatchUserAction, false);
+  window.removeEventListener("wheel", dispatchUserAction, false);
+  window.removeEventListener("mousewheel", dispatchUserAction, false);
+  window.removeEventListener("touchmove", dispatchUserAction, false);
+  window.removeEventListener("safefullpage", safeFullpageHandler);
   window.addEventListener("touchstart", _touchEvent, false);
 }
-function _attatchFullpage(option: ScrollLockOption, fullpage: any) {
+function _attatchFullpage(
+  option: ScrollLockOption,
+  dispatchUserAction: any,
+  safeFullpageHandler: (event: FullpageEvent) => Promise<void>
+) {
   if (option.enableKeydown) {
     window.addEventListener("keydown", _preventDefaultForScrollKeys, {
       passive: false,
     });
   }
-  window.addEventListener("DOMMouseScroll", fullpage, {
+  window.addEventListener("DOMMouseScroll", dispatchUserAction, {
     passive: false,
   });
-  window.addEventListener("scroll", fullpage, { passive: false });
-  window.addEventListener("touchmove", fullpage, { passive: false });
-  window.addEventListener("wheel", fullpage, {
+  window.addEventListener("scroll", dispatchUserAction, { passive: false });
+  window.addEventListener("touchmove", dispatchUserAction, { passive: false });
+  window.addEventListener("wheel", dispatchUserAction, {
     passive: false,
   });
-  window.addEventListener("mousewheel", fullpage, {
+  window.addEventListener("mousewheel", dispatchUserAction, {
     passive: false,
   });
   window.addEventListener("touchstart", _touchEvent, { passive: false });
+  window.addEventListener("safefullpage", safeFullpageHandler);
 }
 
 function _resizeListener(container: HTMLElement, e: any) {

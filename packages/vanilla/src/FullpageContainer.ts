@@ -1,5 +1,9 @@
-import { CSSTimingKeyword } from "@safe-fullpage/core/types";
-import { ERROR_CODE, fullpageFactory } from "@safe-fullpage/core";
+import {
+  CSSTimingKeyword,
+  FullpageContainerOption,
+} from "@safe-fullpage/core/types";
+import { fullpageFactory } from "@safe-fullpage/core";
+import { FullpageEvent } from "@safe-fullpage/core/event";
 
 const template = document.createElement("template");
 template.innerHTML = /* html */ `
@@ -32,13 +36,51 @@ template.innerHTML = /* html */ `
 </div>
 `;
 export class FullpageContainer extends HTMLElement {
-  private _enableKeydown!: boolean;
-  private _scrollDelay!: number;
-  private _touchMovementThreshold!: number;
-  private _duration!: number;
-  private _timingMethod!: CSSTimingKeyword;
-  constructor() {
+  enableKeydown?: boolean;
+  scrollDelay?: number;
+  touchMovementThreshold?: number;
+  duration?: number;
+  timingMethod?: CSSTimingKeyword;
+  onFullpageEnd?: (event: FullpageEvent) => void | Promise<void>;
+  onFullpageStart?: (event: FullpageEvent) => void | Promise<void>;
+
+  constructor(option: FullpageContainerOption) {
     super();
+
+    this.onFullpageEnd = option?.onFullpageEnd;
+    this.onFullpageStart = option?.onFullpageStart;
+    this.duration = Number(this.getAttribute("duration")) || option?.duration;
+    this.touchMovementThreshold =
+      Number(this.getAttribute("touchMovementThreshold")) ||
+      option?.touchMovementThreshold;
+    this.scrollDelay =
+      Number(this.getAttribute("scrollDelay")) || option?.scrollDelay;
+    this.enableKeydown = !!(
+      Boolean(typeof this.getAttribute("enableKeydown") === "string") ||
+      option?.enableKeydown
+    );
+    this.timingMethod =
+      (this.getAttribute("timingMethod") as CSSTimingKeyword) ||
+      option?.timingMethod;
+
+    if (typeof this.duration !== "number" || Number.isNaN(this.duration)) {
+      this.duration = 900;
+    }
+    if (
+      typeof this.touchMovementThreshold !== "number" ||
+      Number.isNaN(this.touchMovementThreshold)
+    ) {
+      this.touchMovementThreshold = 20;
+    }
+    if (
+      typeof this.scrollDelay !== "number" ||
+      Number.isNaN(this.scrollDelay)
+    ) {
+      this.scrollDelay = 1500;
+    }
+    if (typeof this.timingMethod !== "string") {
+      this.timingMethod = "ease";
+    }
 
     const nodes = [];
     const nodesToRemove = [];
@@ -68,131 +110,32 @@ export class FullpageContainer extends HTMLElement {
       "touchMovementThreshold",
       "duration",
       "timingMethod",
+      "onFullpageStart",
+      "onFullpageEnd",
     ];
-  }
-  set enableKeydown(_value: string) {
-    if (_value) {
-      if (_value === "false") {
-        console.warn(
-          "Seems you're trying to set a value to boolean attribute. recommend discarding attribute declaration if you want to set false to it."
-        );
-        this.removeAttribute("enableKeydown");
-      } else {
-        this.setAttribute("enableKeydown", "");
-      }
-    } else {
-      this.removeAttribute("enableKeydown");
-    }
-  }
-  get enableKeydown() {
-    return this.hasAttribute("enableKeydown") ? "true" : "";
-  }
-
-  set scrollDelay(value: string) {
-    this.setAttribute("scrollDelay", value);
-  }
-  get scrollDelay() {
-    if (this.hasAttribute("scrollDelay")) {
-      return this.getAttribute("scrollDelay")!;
-    } else {
-      return "1500"; // 1500ms
-    }
-  }
-
-  set touchMovementThreshold(value: string) {
-    this.setAttribute("touchMovementThreshold", value);
-  }
-  get touchMovementThreshold() {
-    if (this.hasAttribute("touchMovementThreshold")) {
-      return this.getAttribute("touchMovementThreshold")!;
-    } else {
-      return "20"; // 20px
-    }
-  }
-
-  set duration(value: string) {
-    this.setAttribute("duration", value);
-  }
-  get duration() {
-    if (this.hasAttribute("duration")) {
-      return this.getAttribute("duration")!;
-    } else {
-      return "900"; // 900ms
-    }
-  }
-
-  set timingMethod(value: string) {
-    this.setAttribute("timingMethod", value);
-  }
-  get timingMethod() {
-    if (this.hasAttribute("timingMethod")) {
-      return this.getAttribute("timingMethod")!;
-    } else {
-      return "ease";
-    }
   }
 
   connectedCallback() {
     setTimeout(() => {
       const enableKeydown = !!this.enableKeydown;
-      let scrollDelay: string | number = this.scrollDelay;
-      let touchMovementThreshold: string | number = this.touchMovementThreshold;
-      let duration: string | number = this.duration;
-      let timingMethod = this.timingMethod;
-
-      if (Number.isNaN(scrollDelay)) {
-        throw {
-          code: ERROR_CODE.VALIDATION_ERROR,
-          message: `expected type 'number' instead got value ${scrollDelay} on for attribute scrollDelay `,
-        };
-      }
-      if (Number.isNaN(touchMovementThreshold)) {
-        throw {
-          code: ERROR_CODE.VALIDATION_ERROR,
-          message: `expected type 'number' instead got value ${touchMovementThreshold} for attribute touchMovementThreshold `,
-        };
-      }
-      if (Number.isNaN(duration)) {
-        throw {
-          code: ERROR_CODE.VALIDATION_ERROR,
-          message: `expected type 'number' instead got value ${duration} for attribute duration `,
-        };
-      }
-
-      scrollDelay = Number(scrollDelay);
-      touchMovementThreshold = Number(touchMovementThreshold);
-      duration = Number(duration);
-
-      const isAvailableTimingFunction = [
-        "ease",
-        "ease-in",
-        "ease-out",
-        "ease-in-out",
-        "linear",
-      ].some((method) => method === timingMethod);
-
-      if (!isAvailableTimingFunction) {
-        throw {
-          code: ERROR_CODE.VALIDATION_ERROR,
-          message: `expected "ease" | "ease-in" | "ease-out" | "ease-in-out" | "linear", instead got ${timingMethod} for attribute timingMethod `,
-        };
-      }
-
-      this._enableKeydown = enableKeydown;
-      this._scrollDelay = scrollDelay;
-      this._duration = duration;
-      this._touchMovementThreshold = touchMovementThreshold;
-      this._timingMethod = timingMethod as CSSTimingKeyword;
+      const scrollDelay: number = this.scrollDelay!;
+      const touchMovementThreshold: number = this.touchMovementThreshold!;
+      const duration: number = this.duration!;
+      const timingMethod = this.timingMethod;
+      const onFullpageStart = this.onFullpageStart;
+      const onFullpageEnd = this.onFullpageEnd;
 
       const container = this.children.namedItem("safe-fullpage-container")!;
       const { resizeListener, attatchFullpage, detatchFullpage } =
         fullpageFactory({
           container: container as HTMLElement,
-          enableKeydown: this._enableKeydown,
-          scrollDelay: this._scrollDelay,
-          duration: this._duration,
-          touchMovementThreshold: this._touchMovementThreshold,
-          timingMethod: this._timingMethod,
+          enableKeydown,
+          scrollDelay,
+          duration,
+          touchMovementThreshold,
+          timingMethod,
+          onFullpageEnd,
+          onFullpageStart,
         });
       window.addEventListener("resize", resizeListener);
       detatchFullpage();
