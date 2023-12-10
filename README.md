@@ -6,6 +6,8 @@ Simple library to let you build page with basic fullpage animation easily with f
 
 For the ones who don't want to read docs but peek the taste of fullpage.
 
+**[Demo](http://dovigod.github.io/safe-fullpage.github.io/dist/ "Demo")**
+
 ## Note
 
 For the **🐖lazy devs🐖**, just remember **ONE THING**
@@ -83,66 +85,70 @@ const Page = () => {
 #### FullpageContainer
 
 - ###### **enableKeydown**
+
   **type** : boolean
-  
+
   **default** : false
-  
+
   **description**: enables triggering fullpage animation via keydown
 
 ---
 
 - ###### **scrollDelay**
+
   **type** : number
-  
+
   **default** : 1500
-  
+
   **description**: minimum time interval between each animation
 
 ---
 
 - ###### **touchMovementThreshold**
+
   **type** : number
-  
+
   **default** : 20
-  
+
   **description**: minimum pan movement to trigger animation ( usally for mobile devices )
 
 ---
 
 - ###### **duration**
+
   **type** : number
-  
+
   **default** : 900
-  
+
   **description**: time taken to transition for each animation
 
 ---
 
 - ###### **timingMethod**
-  **type** : "ease" | "ease-in" | "linear" | "ease-in-out" | "ease-out";
-  
-  **default** : "ease"
-  
-  **description**: timing function, which will describe how the transition will be held
 
+  **type** : "ease" | "ease-in" | "linear" | "ease-in-out" | "ease-out";
+
+  **default** : "ease"
+
+  **description**: timing function, which will describe how the transition will be held
 
 ---
 
 #### FullpageElement
 
 - ###### **elementType**
+
   **type** : "content" | "footer;
-  
+
   **default** : "content"
-  
+
   **description**: Describe how scolling should be handled for current element.
-  
-  _ **content** : Position current element to stick to bottom of viewport
-  
-  _ **footer** : Position current element to stick to top of viewport
-  
+
+  \_ **content** : Position current element to stick to bottom of viewport
+
+  \_ **footer** : Position current element to stick to top of viewport
+
   ⚠️Warning⚠️) Do not use 'footer' unless its not literally at the end of FullpageElement List.
-  
 
 ---
 
