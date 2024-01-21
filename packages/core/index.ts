@@ -1,6 +1,4 @@
 export * from "./types";
-export * from "./fullpageFactory";
 export * from "./constant";
 export * from "./error";
-export * from "./fullpage";
-export * from "./_Fullpage";
+export * from "./Fullpage";

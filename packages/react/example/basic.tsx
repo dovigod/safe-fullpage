@@ -69,7 +69,7 @@ const Test = () => {
       <FullpageElement>
         <Section3></Section3>
       </FullpageElement>
-      <FullpageElement elementType="footer">
+      <FullpageElement>
         <Footer />
       </FullpageElement>
     </FullpageContainer>

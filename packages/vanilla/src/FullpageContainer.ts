@@ -2,7 +2,7 @@ import {
   CSSTimingKeyword,
   FullpageContainerOption,
 } from "@safe-fullpage/core/types";
-import { fullpageFactory } from "@safe-fullpage/core";
+import { Fullpage } from "@safe-fullpage/core";
 import { FullpageEvent } from "@safe-fullpage/core/event";
 
 const template = document.createElement("template");
@@ -126,20 +126,20 @@ export class FullpageContainer extends HTMLElement {
       const onFullpageEnd = this.onFullpageEnd;
 
       const container = this.children.namedItem("safe-fullpage-container")!;
-      const { resizeListener, attatchFullpage, detatchFullpage } =
-        fullpageFactory({
-          container: container as HTMLElement,
-          enableKeydown,
-          scrollDelay,
-          duration,
-          touchMovementThreshold,
-          timingMethod,
-          onFullpageEnd,
-          onFullpageStart,
-        });
+      const instance = new Fullpage({
+        container: container as HTMLElement,
+        enableKeydown,
+        scrollDelay,
+        duration,
+        touchMovementThreshold,
+        timingMethod,
+        onFullpageEnd,
+        onFullpageStart,
+      });
+      const { resizeListener, attatch, detatch } = instance.getListeners();
       window.addEventListener("resize", resizeListener);
-      detatchFullpage();
-      attatchFullpage();
+      detatch();
+      attatch();
     }, 0);
   }
 }
