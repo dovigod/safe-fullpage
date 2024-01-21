@@ -134,24 +134,6 @@ const Page = () => {
 
 ---
 
-#### FullpageElement
-
-- ###### **elementType**
-
-  **type** : "content" | "footer;
-
-  **default** : "content"
-
-  **description**: Describe how scolling should be handled for current element.
-
-  \_ **content** : Position current element to stick to bottom of viewport
-
-  \_ **footer** : Position current element to stick to top of viewport
-
-  ⚠️Warning⚠️) Do not use 'footer' unless its not literally at the end of FullpageElement List.
-
----
-
 ## License
 
 MIT

@@ -8,10 +8,12 @@
 ### @safe-fullpage/vanilla
 
 - adjustment to fit core
+- deprecate `elementType` since it seems to be useless
 
 ### @safe-fullpage/react
 
 - adjustment to fit core
+- deprecate `elementType` since it seems to be useless
 
 ## 0.?.? (Dec 03, 2023)
 
