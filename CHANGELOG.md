@@ -1,4 +1,19 @@
-## 1.1.0 (Dec 03, 2023)
+## 1.0.0 (Jan 21, 2024)
+
+### @safe-fullpage/core
+
+- Re-write fullpage core logics based on class (previously, function)
+- available `scroll` method, which will let user able to programatically scroll
+
+### @safe-fullpage/vanilla
+
+- adjustment to fit core
+
+### @safe-fullpage/react
+
+- adjustment to fit core
+
+## 0.?.? (Dec 03, 2023)
 
 ### @safe-fullpage/core
 
